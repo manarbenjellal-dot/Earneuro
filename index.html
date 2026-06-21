@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
+  <!-- ===== PRIMARY META ===== -->
+  <title>Earneuro – Personal Finance</title>
+  <meta name="description" content="Organize your salary, track expenses, manage savings goals, and grow your Piggy Bank. 100% offline, private, and free." />
+  <meta name="author" content="Earneuro" />
+  <meta name="keywords" content="personal finance, budget, salary, savings, expense tracker, piggy bank" />
+
+  <!-- ===== THEME & PWA ===== -->
+  <meta name="theme-color" content="#22c55e" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Earneuro" />
+  <link rel="manifest" href="manifest.json" />
+
+  <!-- ===== FAVICON ===== -->
+  <link rel="icon" type="image/png" sizes="32x32" href="icon-192.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
+
+  <!-- ===== OPEN GRAPH (display pic for WhatsApp, Facebook, LinkedIn) ===== -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Earneuro – Personal Finance" />
+  <meta property="og:description" content="Organize your salary, track expenses, manage savings goals, and grow your Piggy Bank. 100% offline, private, and free." />
+  <meta property="og:image" content="icon-512.png" />
+  <meta property="og:image:width" content="512" />
+  <meta property="og:image:height" content="512" />
+  <meta property="og:image:alt" content="Earneuro – Personal Finance App" />
+  <meta property="og:site_name" content="Earneuro" />
+
+  <!-- ===== TWITTER CARD (display pic for Twitter/X) ===== -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Earneuro – Personal Finance" />
+  <meta name="twitter:description" content="Organize your salary, track expenses, and grow your savings. 100% offline." />
+  <meta name="twitter:image" content="icon-512.png" />
+  <meta name="twitter:image:alt" content="Earneuro App Icon" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="light">
+
+<!-- PIN LOCK SCREEN -->
+<div id="lockScreen" class="lock-screen hidden">
+  <div class="lock-card">
+    <h2>Earneuro</h2>
+    <p class="lock-sub">Enter your PIN to continue</p>
+    <div class="pin-dots" id="pinDots">
+      <span></span><span></span><span></span><span></span>
+    </div>
+    <div class="pin-pad" id="pinPad"></div>
+    <button class="btn-ghost" id="forgotPin">Forgot PIN? (Reset App)</button>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app" class="app-shell hidden">
+
+  <!-- SIDEBAR (desktop) -->
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <span class="logo-text">Earneuro</span>
+    </div>
+    <ul class="nav-links" id="sidebarNav"></ul>
+    <div class="sidebar-footer">
+      <button class="theme-toggle" id="themeToggleDesk" title="Toggle dark mode"></button>
+    </div>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <div class="main-area">
+    <header class="top-bar">
+      <button class="hamburger" id="hamburger" aria-label="Menu"></button>
+      <span class="top-title" id="topTitle">Dashboard</span>
+      <div class="top-actions">
+        <button class="theme-toggle" id="themeToggleMob" aria-label="Toggle theme"></button>
+      </div>
+    </header>
+
+    <main class="content-area" id="contentArea"></main>
+  </div>
+
+  <!-- FAB -->
+  <button class="fab" id="fab" title="Add Expense" aria-label="Add expense"></button>
+
+  <!-- BOTTOM NAV (mobile) -->
+  <nav class="bottom-nav" id="bottomNav"></nav>
+</div>
+
+<!-- MODAL OVERLAY -->
+<div id="modalOverlay" class="modal-overlay hidden">
+  <div class="modal-box" id="modalBox"></div>
+</div>
+
+<!-- TOAST -->
+<div id="toast" class="toast hidden"></div>
+
+<script src="assets/icons.js"></script>
+<script src="app.js"></script>
+
+<!-- ===== SERVICE WORKER REGISTRATION ===== -->
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js')
+        .catch(() => {}); // silently fail if offline install not supported
+    });
+  }
+</script>
+</body>
+</html>

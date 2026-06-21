@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Earneuro – Generate Icons</title>
+  <style>
+    body { font-family: sans-serif; padding: 32px; background: #f0fdf4; color: #1a2e1a; }
+    h1 { color: #22c55e; }
+    .step { background: white; border-radius: 12px; padding: 20px; margin: 16px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+    canvas { border-radius: 16px; display: block; margin: 12px 0; }
+    button { background: #22c55e; color: white; border: none; border-radius: 8px; padding: 10px 24px; font-size: 15px; font-weight: 700; cursor: pointer; margin: 6px 4px; }
+    button:hover { background: #16a34a; }
+    code { background: #f0fdf4; border: 1px solid #bbf7d0; padding: 2px 8px; border-radius: 4px; font-size: 13px; }
+    .note { background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; padding: 12px 16px; margin-top: 12px; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <h1>Earneuro Icon Generator</h1>
+  <p>This tool generates the app icons needed for Netlify deployment. Run it once, download the files, then delete this page.</p>
+
+  <div class="step">
+    <h3>Step 1 – Preview</h3>
+    <canvas id="c512" width="512" height="512"></canvas>
+    <canvas id="c192" width="192" height="192"></canvas>
+    <canvas id="c32" width="32" height="32"></canvas>
+  </div>
+
+  <div class="step">
+    <h3>Step 2 – Download all 3 files</h3>
+    <button onclick="dl('c512','icon-512.png')">Download icon-512.png</button>
+    <button onclick="dl('c192','icon-192.png')">Download icon-192.png</button>
+    <button onclick="dl('c32','favicon.png')">Download favicon.png</button>
+    <div class="note">
+      After downloading, place all 3 files in the <code>earneuro/</code> folder (same folder as <code>index.html</code>).
+      Then deploy to Netlify by dragging the <code>earneuro/</code> folder to <a href="https://app.netlify.com/drop" target="_blank">netlify.com/drop</a>.
+    </div>
+  </div>
+
+<script>
+function drawEarneuroIcon(canvas) {
+  const s = canvas.width;
+  const ctx = canvas.getContext('2d');
+  const R = s * 0.16; // corner radius
+
+  // ---- Rounded green background ----
+  ctx.beginPath();
+  ctx.moveTo(R, 0); ctx.lineTo(s - R, 0);
+  ctx.arcTo(s, 0, s, R, R);
+  ctx.lineTo(s, s - R);
+  ctx.arcTo(s, s, s - R, s, R);
+  ctx.lineTo(R, s);
+  ctx.arcTo(0, s, 0, s - R, R);
+  ctx.lineTo(0, R);
+  ctx.arcTo(0, 0, R, 0, R);
+  ctx.closePath();
+  ctx.fillStyle = '#22c55e';
+  ctx.fill();
+
+  // ---- Scale factor so piggy fits nicely ----
+  // Original piggy viewBox = 200 x 180, we want it centered with 10% padding
+  const pad = s * 0.08;
+  const drawW = s - pad * 2;
+  const drawH = drawW * (180 / 200);
+  const ox = pad;
+  const oy = (s - drawH) / 2;
+  const sc = drawW / 200;
+
+  ctx.save();
+  ctx.translate(ox, oy);
+  ctx.scale(sc, sc);
+
+  // Body
+  ctx.beginPath();
+  ctx.ellipse(108, 112, 78, 60, 0, 0, Math.PI * 2);
+  ctx.fillStyle = '#F9A8D4'; ctx.fill();
+
+  // Head
+  ctx.beginPath();
+  ctx.arc(44, 98, 36, 0, Math.PI * 2);
+  ctx.fillStyle = '#F9A8D4'; ctx.fill();
+
+  // Ear outer
+  ctx.beginPath();
+  ctx.ellipse(54, 64, 12, 16, 0, 0, Math.PI * 2);
+  ctx.fillStyle = '#F9A8D4'; ctx.fill();
+  // Ear inner
+  ctx.beginPath();
+  ctx.ellipse(54, 66, 7, 11, 0, 0, Math.PI * 2);
+  ctx.fillStyle = '#FBCFE8'; ctx.fill();
+
+  // Snout
+  ctx.beginPath();
+  ctx.ellipse(18, 106, 16, 12, 0, 0, Math.PI * 2);
+  ctx.fillStyle = '#FBCFE8'; ctx.fill();
+  // Nostrils
+  ctx.beginPath(); ctx.arc(13, 104, 3.5, 0, Math.PI * 2);
+  ctx.fillStyle = '#E879A8'; ctx.fill();
+  ctx.beginPath(); ctx.arc(23, 104, 3.5, 0, Math.PI * 2);
+  ctx.fillStyle = '#E879A8'; ctx.fill();
+
+  // Eye white
+  ctx.beginPath(); ctx.arc(38, 88, 6, 0, Math.PI * 2);
+  ctx.fillStyle = 'white'; ctx.fill();
+  // Eye pupil
+  ctx.beginPath(); ctx.arc(38, 88, 4, 0, Math.PI * 2);
+  ctx.fillStyle = '#666'; ctx.fill();
+  // Eye shine
+  ctx.beginPath(); ctx.arc(40, 86, 1.5, 0, Math.PI * 2);
+  ctx.fillStyle = 'white'; ctx.fill();
+
+  // Coin slot
+  ctx.beginPath();
+  ctx.roundRect(82, 56, 34, 7, 3.5);
+  ctx.fillStyle = 'white'; ctx.fill();
+
+  // Legs
+  [[68, 162], [94, 164], [120, 164], [146, 162]].forEach(([x, y]) => {
+    ctx.beginPath();
+    ctx.roundRect(x, y, 20, 18, 7);
+    ctx.fillStyle = '#F9A8D4'; ctx.fill();
+  });
+
+  // Tail
+  ctx.beginPath();
+  ctx.moveTo(186, 100);
+  ctx.bezierCurveTo(200, 92, 202, 108, 192, 112);
+  ctx.bezierCurveTo(202, 116, 198, 132, 186, 126);
+  ctx.strokeStyle = '#F9A8D4';
+  ctx.lineWidth = 7;
+  ctx.lineCap = 'round';
+  ctx.stroke();
+
+  // Gold coin on body
+  ctx.beginPath();
+  ctx.arc(148, 72, 28, 0, Math.PI * 2);
+  ctx.fillStyle = '#F5C800'; ctx.fill();
+  ctx.beginPath();
+  ctx.arc(148, 72, 23, 0, Math.PI * 2);
+  ctx.fillStyle = '#FFE55C'; ctx.fill();
+
+  // $ on coin
+  const fontSize = Math.round(34 * sc < 10 ? 34 : 34);
+  ctx.font = `900 34px Georgia, serif`;
+  ctx.fillStyle = '#16a34a';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('$', 148, 74);
+
+  ctx.restore();
+}
+
+['c512', 'c192', 'c32'].forEach(id => drawEarneuroIcon(document.getElementById(id)));
+
+function dl(id, name) {
+  const a = document.createElement('a');
+  a.download = name;
+  a.href = document.getElementById(id).toDataURL('image/png');
+  a.click();
+}
+</script>
+</body>
+</html>

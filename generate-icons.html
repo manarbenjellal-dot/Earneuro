@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head><title>Icon Generator – Run once then delete</title></head>
+<body>
+<p>Click the buttons below to download the icon files, then place them in the <code>earneuro/</code> folder.</p>
+<canvas id="c192" width="192" height="192" style="border:1px solid #ccc;margin:8px"></canvas>
+<canvas id="c512" width="512" height="512" style="border:1px solid #ccc;margin:8px"></canvas>
+<canvas id="cFav" width="32" height="32" style="border:1px solid #ccc;margin:8px"></canvas>
+<br>
+<button onclick="dl('c192','icon-192.png')">Download icon-192.png</button>
+<button onclick="dl('c512','icon-512.png')">Download icon-512.png</button>
+<button onclick="dl('cFav','favicon.ico')">Download favicon.png</button>
+<script>
+function drawIcon(canvas) {
+  const s = canvas.width;
+  const ctx = canvas.getContext('2d');
+  const r = s * 0.12;
+  // Background rounded rect
+  ctx.beginPath();
+  ctx.moveTo(r, 0); ctx.lineTo(s-r, 0);
+  ctx.quadraticCurveTo(s, 0, s, r);
+  ctx.lineTo(s, s-r); ctx.quadraticCurveTo(s, s, s-r, s);
+  ctx.lineTo(r, s); ctx.quadraticCurveTo(0, s, 0, s-r);
+  ctx.lineTo(0, r); ctx.quadraticCurveTo(0, 0, r, 0);
+  ctx.closePath();
+  ctx.fillStyle = '#22c55e';
+  ctx.fill();
+
+  // Draw piggy from SVG path scaled to canvas
+  const scale = s / 200;
+  ctx.save();
+  ctx.scale(scale, scale);
+
+  // Body
+  ctx.beginPath();
+  ctx.ellipse(108, 112, 78, 60, 0, 0, Math.PI*2);
+  ctx.fillStyle = '#F9A8D4'; ctx.fill();
+
+  // Head
+  ctx.beginPath();
+  ctx.arc(44, 98, 36, 0, Math.PI*2);
+  ctx.fillStyle = '#F9A8D4'; ctx.fill();
+
+  // Ear
+  ctx.beginPath();
+  ctx.ellipse(54, 64, 12, 16, 0, 0, Math.PI*2);
+  ctx.fillStyle = '#F9A8D4'; ctx.fill();
+  ctx.beginPath();
+  ctx.ellipse(54, 66, 7, 11, 0, 0, Math.PI*2);
+  ctx.fillStyle = '#FBCFE8'; ctx.fill();
+
+  // Snout
+  ctx.beginPath();
+  ctx.ellipse(18, 106, 16, 12, 0, 0, Math.PI*2);
+  ctx.fillStyle = '#FBCFE8'; ctx.fill();
+  ctx.beginPath(); ctx.arc(13, 104, 3.5, 0, Math.PI*2);
+  ctx.fillStyle = '#E879A8'; ctx.fill();
+  ctx.beginPath(); ctx.arc(23, 104, 3.5, 0, Math.PI*2);
+  ctx.fillStyle = '#E879A8'; ctx.fill();
+
+  // Eye
+  ctx.beginPath(); ctx.arc(38, 88, 6, 0, Math.PI*2);
+  ctx.fillStyle = 'white'; ctx.fill();
+  ctx.beginPath(); ctx.arc(38, 88, 4, 0, Math.PI*2);
+  ctx.fillStyle = '#888'; ctx.fill();
+  ctx.beginPath(); ctx.arc(40, 86, 1.2, 0, Math.PI*2);
+  ctx.fillStyle = 'white'; ctx.fill();
+
+  // Coin slot
+  ctx.beginPath();
+  ctx.roundRect(82, 56, 34, 7, 3.5);
+  ctx.fillStyle = 'white'; ctx.fill();
+
+  // Legs
+  [[68,162],[94,164],[120,164],[146,162]].forEach(([x,y]) => {
+    ctx.beginPath(); ctx.roundRect(x, y, 20, 18, 7);
+    ctx.fillStyle = '#F9A8D4'; ctx.fill();
+  });
+
+  // Tail
+  ctx.beginPath();
+  ctx.moveTo(186, 100);
+  ctx.bezierCurveTo(200, 92, 202, 108, 192, 112);
+  ctx.bezierCurveTo(202, 116, 198, 132, 186, 126);
+  ctx.strokeStyle = '#F9A8D4'; ctx.lineWidth = 7;
+  ctx.lineCap = 'round'; ctx.stroke();
+
+  // Dollar coin
+  ctx.beginPath();
+  ctx.arc(150, 68, 26, 0, Math.PI*2);
+  ctx.fillStyle = '#F5C800'; ctx.fill();
+  ctx.beginPath();
+  ctx.arc(150, 68, 22, 0, Math.PI*2);
+  ctx.fillStyle = '#FFE55C'; ctx.fill();
+
+  // $ on coin
+  ctx.font = `bold ${32}px Georgia, serif`;
+  ctx.fillStyle = '#16a34a';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('$', 150, 70);
+
+  ctx.restore();
+}
+
+['c192','c512','cFav'].forEach(id => drawIcon(document.getElementById(id)));
+
+function dl(id, name) {
+  const a = document.createElement('a');
+  a.download = name;
+  a.href = document.getElementById(id).toDataURL('image/png');
+  a.click();
+}
+</script>
+</body>
+</html>

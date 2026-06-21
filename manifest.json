@@ -1,0 +1,28 @@
+{
+  "name": "Earneuro – Personal Finance",
+  "short_name": "Earneuro",
+  "description": "Organize your salary, track expenses, and grow your savings.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#f0fdf4",
+  "theme_color": "#22c55e",
+  "lang": "en",
+  "categories": ["finance", "productivity"],
+  "screenshots": [],
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
